@@ -39,5 +39,19 @@ services:
       - db
       - redis
       - app
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "app"
+    env_file:
+      - ./.env.dev
+    command: bash -c "sleep 5 && flower -A config"
+    depends_on:
+      - celery
+    volumes:
+      - ./app:/app
+    ports:
+      - "5555:5555"
 volumes:
   pgdata:
